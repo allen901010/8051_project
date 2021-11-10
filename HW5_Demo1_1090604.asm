@@ -1,0 +1,47 @@
+ORG 0000h ;程式開始
+MOV 0E8h,#0FFh ;P4暗
+MOV P0,#0FFh ; P0暗
+MOV R0, #0h
+MOV R1, #0F7h ;1111 0111B 第一個開始
+MOV DPTR,#Seven_Table
+
+
+Loop:
+ACALL Disp_07seg
+ACALL Delay
+SJMP Loop
+
+
+Delay: 
+MOV R4, #10
+Delay10: MOV R5, #24
+Delay1: MOV R6, #100
+Delay2: MOV R7, #100
+Delay0: DJNZ R7, Delay0
+DJNZ R6, Delay2
+DJNZ R5, Delay1
+DJNZ R4, Delay10
+RET 
+
+Disp_07seg:
+MOV A,R1
+RL A
+JB 0E4h,Here
+MOV A,#0FEh
+Here:
+MOV 0E8h,A
+MOV R1,A
+MOV A, R0
+ANL A,#00000011B
+MOVC A,@A+DPTR
+MOV P0,A
+INC R0
+RET
+
+Seven_Table:
+DB 11000000B
+DB 10000010B
+DB 11000000B
+DB 10011001B
+
+END

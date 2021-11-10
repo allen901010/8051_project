@@ -1,8 +1,8 @@
          ORG 0000h  ;
-         MOV A, #04h
+         MOV A, #3Fh
 Loop:
+         RL  A
          MOV P1,A
-         CPL A
          ACALL Delay  ;
          SJMP Loop
 
