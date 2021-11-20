@@ -33,7 +33,7 @@ Delay2:     MOV     R7, #100
 Delay0:     DJNZ    R7, Delay0
             DJNZ    R6, Delay2
             DJNZ    R5, Delay1
-            RET
+            RET    
 
 Disp_7seg:                                          ;set 7seg flashed factor
 			PUSH	0E0h                            ;PUSH A to stack to save the value avoid the code influence
@@ -67,7 +67,7 @@ GetKey:                                             ;get the button press in
 ;-------------------------------------------------
 Get_P2:                                             ;set P2 value
 			MOV		R2, #0                          ;set R2 start count from 0
-Check_P2:
+Check_P2:   
             JB      Acc.0, Check_next_P2            ;if Acc.0 = 1 goto Check_next_P2
             MOV     Key_now, R2                     ;set Key_now from R2
             SJMP    Exit_Getkey                     ;goto label Exit_Getkey
@@ -79,7 +79,7 @@ Check_next_P2:
 ;-------------------------------------------------
 Get_P3:                                             ;set P2 value
 			MOV		R2, #8                          ;set R2 start count from 0
-Check_P3:
+Check_P3:   
             JB      Acc.0, Check_next_P3            ;if Acc.0 = 1 goto Check_next_P3
             MOV     Key_now, R2                     ;set Key_now from R2
             SJMP    Exit_Getkey                     ;goto label Exit_Getkey
@@ -90,7 +90,7 @@ Check_next_P3:
 Exit_Getkey:                                        ;set over
 			POP		0E0h                            ;get value from stack into A
 			RET                                     ;return
-
+			
 Delay_KeyDebounce:
             PUSH    0E0h                            ;Push A into stack
             ACALL   Delay                           ;run Delay Loop
@@ -98,7 +98,7 @@ Delay_KeyDebounce:
             CJNE    R3, #0, Exit_KeyDebounce        ;if R3 not equal to0 then goto Exit_Getkey
             MOV     R3, #100                        ;set R3 = 100
             MOV     A, Key_now                      ;set A from Key_now
-            CJNE    A, #0FFh, Unclear_KeyCheck      ;if A not equal to FFh then goto Unclear_KeyCheck
+            CJNE    A, #0FFh, Unclear_KeyCheck      ;if A not equal to FFh then goto Unclear_KeyCheck 
 Clear_KeyCheck:
             MOV     Key_pre, #0FFh                  ;set Key_pre = FFh
             MOV     Key_now, #0FFh                  ;set Key_now = FFh
@@ -112,10 +112,10 @@ Unclear_KeyCheck:
             MOV     DispBuf2, DispBuf3              ;left move the 7seg
             MOV     DispBuf3, A                     ;left move the 7seg
             SJMP    Clear_KeyCheck                  ;goto label Clear_KeyCheck
-
+			 
 recheck:
             MOV     Key_pre, Key_now                ;set Key_pre from Key_now
-            SJMP    Exit_Getkey                     ;goto label Exit_Getkey
+            SJMP    Exit_Getkey                     ;goto label Exit_Getkey 
 ;-------------------------------------------------
 Seven_Table:
 			DB		11000000B		;display 0
